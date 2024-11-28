@@ -12,8 +12,8 @@ using Project1.Configurations;
 namespace Project1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241128104519_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241128114903_first_mig")]
+    partial class first_mig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

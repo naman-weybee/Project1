@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Project1.Models
+﻿namespace Project1.Models
 {
     public class Product : Base
     {
-        [Key]
         public int Id { get; set; }
 
         public string Name { get; set; }

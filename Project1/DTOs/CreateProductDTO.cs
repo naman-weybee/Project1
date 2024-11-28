@@ -2,7 +2,7 @@
 
 namespace Project1.DTOs
 {
-    public class CreateProductDTO : BaseDTO
+    public class CreateProductDTO
     {
         [Required(ErrorMessage = "Product name is required.")]
         [StringLength(100, ErrorMessage = "Product name cannot exceed 100 characters.")]

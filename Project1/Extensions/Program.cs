@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Project1.Configurations;
+using Project1.Repositories;
+using Project1.Services;
 
 namespace Project1.Extensions
 {
@@ -9,10 +11,15 @@ namespace Project1.Extensions
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer("ConnectionString"));
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-            builder.Services.AddControllers();
+            // Add services to the container.
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+            builder.Services.AddControllers().AddNewtonsoftJson();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

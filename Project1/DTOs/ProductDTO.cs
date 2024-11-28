@@ -2,7 +2,7 @@
 
 namespace Project1.DTOs
 {
-    public class ProductDTO : BaseDTO
+    public class ProductDTO
     {
         [Key]
         public int Id { get; set; }

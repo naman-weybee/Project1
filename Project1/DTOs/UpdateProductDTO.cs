@@ -2,10 +2,8 @@
 
 namespace Project1.DTOs
 {
-    public class UpdateProductDTO : BaseDTO
+    public class UpdateProductDTO
     {
-        public int Id { get; set; }
-
         [Required(ErrorMessage = "Product name is required.")]
         [StringLength(100, ErrorMessage = "Product name cannot exceed 100 characters.")]
         public string Name { get; set; }

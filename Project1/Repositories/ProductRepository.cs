@@ -1,9 +1,11 @@
-﻿using Project1.Configurations;
+﻿using Microsoft.EntityFrameworkCore;
+using Project1.Configurations;
+using Project1.DTOs;
 using Project1.Models;
 
 namespace Project1.Repositories
 {
-    public class ProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly AppDbContext _context;
 
@@ -12,30 +14,68 @@ namespace Project1.Repositories
             _context = context;
         }
 
-        public List<Product> GetAllAsync()
+        public async Task<List<ProductDTO>> GetAllAsync()
         {
             //Filter and Sorting is Pending
-            return _context.Products.ToList();
+            var records = await _context.Products
+                .Select(x => new ProductDTO()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    Price = x.Price,
+                    Stock = x.Stock,
+                }).ToListAsync();
+
+            return records!;
         }
 
-        public Product GetByIdAsync(int id)
+        public async Task<ProductDTO> GetByIdAsync(int id)
         {
-            return _context.Products.Find(id);
+            var record = await _context.Products
+                .Where(x => x.Id == id)
+                .Select(x => new ProductDTO()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    Price = x.Price,
+                    Stock = x.Stock,
+                }).FirstOrDefaultAsync();
+
+            return record!;
         }
 
-        public async void AddAsync(Product product)
+        public async Task<ProductDTO> AddAsync(Product product)
         {
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
+
+            return await GetByIdAsync(product.Id);
         }
 
-        public async void UpdateAsync(Product product)
+        public async Task<ProductDTO> UpdateAsync(int id, Product product)
         {
-            _context.Products.Update(product);
+            var data = await _context.Products.FindAsync(id);
+            if (data != null)
+            {
+                data.Id = id;
+                data.Name = product.Name;
+                data.Description = product.Description;
+                data.Price = product.Price;
+                data.Stock = product.Stock;
+                data.CreatedDate = product.CreatedDate;
+                data.UpdatedDate = DateTime.UtcNow;
+                data.IsDeleted = product.IsDeleted;
+            }
+
+            _context.Products.Update(data!);
             await _context.SaveChangesAsync();
+
+            return await GetByIdAsync(data!.Id);
         }
 
-        public async void DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             var product = _context.Products.Find(id);
             if (product != null)

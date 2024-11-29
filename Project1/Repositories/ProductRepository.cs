@@ -2,8 +2,6 @@
 using Project1.Configurations;
 using Project1.DTOs;
 using Project1.Models;
-using Project1.RequestModel;
-using Project1.Services;
 using X.PagedList;
 
 namespace Project1.Repositories

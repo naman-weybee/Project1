@@ -6,7 +6,7 @@ namespace Project1.Repositories
     public interface IRepository<TEntity>
          where TEntity : class
     {
-        DbContext GetDbContext();
+        AppDbContext GetDbContext();
 
         Task<TEntity> GetByIdAsync(int id);
 

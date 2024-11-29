@@ -7,16 +7,16 @@ namespace Project1.Repositories
        where TEntity : class
     {
         internal bool _disposed;
-        internal DbContext Context;
+        internal AppDbContext Context;
         internal DbSet<TEntity> DbSet;
 
-        public Repository(DbContext context)
+        public Repository(AppDbContext context)
         {
             Context = context;
             DbSet = context.Set<TEntity>();
         }
 
-        public DbContext GetDbContext()
+        public AppDbContext GetDbContext()
         {
             return Context;
         }
@@ -42,9 +42,8 @@ namespace Project1.Repositories
 
         public virtual async Task DeleteAsync(int id)
         {
-            var entity = DbSet.Find(id);
+            var entity = await DbSet.FindAsync(id);
             DbSet.Remove(entity);
-            Context.Entry(entity).State = EntityState.Deleted;
             await Context.SaveChangesAsync();
         }
 

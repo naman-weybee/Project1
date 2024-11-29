@@ -53,9 +53,9 @@ namespace Project1.Controllers
         }
 
         [HttpDelete("{id}")]
-        public void DeleteProduct([FromRoute] int id)
+        public async Task DeleteProduct([FromRoute] int id)
         {
-            _productService.DeleteProductAsync(id);
+            await _productService.DeleteProductAsync(id);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Project1.Configurations
                 {
                     item.State = EntityState.Unchanged;
                     baseDto.IsDeleted = true;
-                    baseDto.UpdatedDate = DateTime.Now;
+                    baseDto.DeletedDate = DateTime.Now;
                 }
             }
 

@@ -1,5 +1,4 @@
 ﻿using Project1.AutoMapper;
-using Project1.Configurations;
 using Project1.DTOs;
 using Project1.Models;
 using Project1.Repositories;
@@ -8,10 +7,10 @@ namespace Project1.Services
 {
     public class ProductService : IProductService
     {
-        private readonly IRepository<Product, AppDbContext> _repository;
+        private readonly IRepository<Product> _repository;
         private readonly Mapper _mapper;
 
-        public ProductService(IRepository<Product, AppDbContext> repository)
+        public ProductService(IRepository<Product> repository)
         {
             _repository = repository;
             _mapper = new Mapper();

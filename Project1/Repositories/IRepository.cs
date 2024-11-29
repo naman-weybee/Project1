@@ -1,12 +1,12 @@
-﻿using Project1.Configurations;
+﻿using Microsoft.EntityFrameworkCore;
+using Project1.Configurations;
 
 namespace Project1.Repositories
 {
-    public interface IRepository<TEntity, TContext>
+    public interface IRepository<TEntity>
          where TEntity : class
-         where TContext : AppDbContext, new()
     {
-        AppDbContext GetDbContext();
+        DbContext GetDbContext();
 
         Task<TEntity> GetByIdAsync(int id);
 

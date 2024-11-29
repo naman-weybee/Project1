@@ -22,7 +22,7 @@ namespace Project1.Extensions
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IPagination, Pagination>();
 
-            builder.Services.AddScoped<IRepository<Product, AppDbContext>, Repository<Product, AppDbContext>>();
+            builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
             builder.Services.AddControllers().AddNewtonsoftJson();

@@ -3,21 +3,20 @@ using Project1.Configurations;
 
 namespace Project1.Repositories
 {
-    public class Repository<TEntity, TContext> : IRepository<TEntity, TContext>
+    public class Repository<TEntity> : IRepository<TEntity>
        where TEntity : class
-       where TContext : AppDbContext, new()
     {
         internal bool _disposed;
-        internal AppDbContext Context;
+        internal DbContext Context;
         internal DbSet<TEntity> DbSet;
 
-        public Repository(TContext context)
+        public Repository(DbContext context)
         {
             Context = context;
             DbSet = context.Set<TEntity>();
         }
 
-        public AppDbContext GetDbContext()
+        public DbContext GetDbContext()
         {
             return Context;
         }

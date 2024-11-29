@@ -4,7 +4,6 @@ namespace Project1.DTOs
 {
     public class ProductDTO
     {
-        [Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Product name is required.")]

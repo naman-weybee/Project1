@@ -21,6 +21,7 @@
             }
         }
 
+        public int recordCount { get; set; }
         public string? sortBy { get; set; }
         public string? orderBy { get; set; }
     }

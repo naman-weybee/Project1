@@ -6,6 +6,11 @@ namespace Project1.Configurations
 {
     public class AppDbContext : DbContext
     {
+        public AppDbContext()
+        : base()
+        {
+        }
+
         public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
         {

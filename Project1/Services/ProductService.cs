@@ -1,4 +1,6 @@
-﻿using Project1.DTOs;
+﻿using Project1.AutoMapper;
+using Project1.Configurations;
+using Project1.DTOs;
 using Project1.Models;
 using Project1.Repositories;
 
@@ -6,24 +8,28 @@ namespace Project1.Services
 {
     public class ProductService : IProductService
     {
-        public IProductRepository _productRepository;
+        private readonly IRepository<Product, AppDbContext> _repository;
+        private readonly Mapper _mapper;
 
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IRepository<Product, AppDbContext> repository)
         {
-            _productRepository = productRepository;
+            _repository = repository;
+            _mapper = new Mapper();
         }
 
-        public async Task<List<ProductDTO>> GetAllProductsAsync()
-        {
-            return await _productRepository.GetAllAsync();
-        }
+        //public async Task<List<ProductDTO>> GetAllProductsAsync()
+        //{
+        //    return await _productRepository.GetAllAsync();
+        //}
 
         public async Task<ProductDTO> GetProductByIdAsync(int id)
         {
-            return await _productRepository.GetByIdAsync(id);
+            var product = await _repository.GetByIdAsync(id);
+
+            return _mapper.ProductMapper(product);
         }
 
-        public async Task<ProductDTO> CreateProductAsync(CreateProductDTO productDTO)
+        public async Task CreateProductAsync(CreateProductDTO productDTO)
         {
             var product = new Product
             {
@@ -33,26 +39,26 @@ namespace Project1.Services
                 Stock = productDTO.Stock
             };
 
-            return await _productRepository.AddAsync(product);
+            await _repository.InsertAsync(product);
         }
 
-        public async Task<ProductDTO> UpdateProductAsync(int id, UpdateProductDTO productDTO)
+        public async Task UpdateProductAsync(ProductDTO productDTO)
         {
             var product = new Product
             {
-                Id = id,
+                Id = productDTO.Id,
                 Name = productDTO.Name,
                 Description = productDTO.Description,
                 Price = productDTO.Price,
                 Stock = productDTO.Stock
             };
 
-            return await _productRepository.UpdateAsync(id, product);
+            await _repository.UpdateAsync(product);
         }
 
         public async Task DeleteProductAsync(int id)
         {
-            await _productRepository.DeleteAsync(id);
+            await _repository.DeleteAsync(id);
         }
     }
 }

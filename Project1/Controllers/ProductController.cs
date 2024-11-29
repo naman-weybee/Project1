@@ -15,12 +15,21 @@ namespace Project1.Controllers
             _productService = productService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
-        {
-            var products = await _productService.GetAllProductsAsync();
-            return StatusCode(200, products);
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> GetAllProducts([FromQuery] RequestParams requestParams)
+        //{
+        //    var response = new ResponseStructure();
+        //    try
+        //    {
+        //        var data = await _productService.GetAllProductsAsync(requestParams);
+        //        return Ok(data);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response.error = ex.Message;
+        //        return StatusCode(500, response);
+        //    }
+        //}
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById([FromRoute] int id)
@@ -32,15 +41,15 @@ namespace Project1.Controllers
         [HttpPost("")]
         public async Task<IActionResult> CreateProduct([FromForm] CreateProductDTO productDTO)
         {
-            var product = await _productService.CreateProductAsync(productDTO);
-            return StatusCode(201, product);
+            await _productService.CreateProductAsync(productDTO);
+            return StatusCode(201);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct([FromRoute] int id, [FromForm] UpdateProductDTO productDTO)
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct([FromForm] ProductDTO productDTO)
         {
-            var product = await _productService.UpdateProductAsync(id, productDTO);
-            return StatusCode(200, product);
+            await _productService.UpdateProductAsync(productDTO);
+            return StatusCode(200);
         }
 
         [HttpDelete("{id}")]

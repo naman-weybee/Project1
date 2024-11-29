@@ -1,11 +1,13 @@
 ﻿using Project1.DTOs;
 using Project1.Models;
+using Project1.RequestModel;
+using X.PagedList;
 
 namespace Project1.Repositories
 {
     public interface IProductRepository
     {
-        Task<List<ProductDTO>> GetAllAsync();
+        //Task<IPagedList<ProductDTO>> GetAllAsync(RequestParams requestParams);
 
         Task<ProductDTO> GetByIdAsync(int id);
 

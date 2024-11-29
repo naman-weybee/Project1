@@ -2,6 +2,9 @@
 using Project1.Configurations;
 using Project1.DTOs;
 using Project1.Models;
+using Project1.RequestModel;
+using Project1.Services;
+using X.PagedList;
 
 namespace Project1.Repositories
 {
@@ -14,21 +17,26 @@ namespace Project1.Repositories
             _context = context;
         }
 
-        public async Task<List<ProductDTO>> GetAllAsync()
-        {
-            //Filter and Sorting is Pending
-            var records = await _context.Products
-                .Select(x => new ProductDTO()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
-                    Price = x.Price,
-                    Stock = x.Stock,
-                }).ToListAsync();
+        //public async Task<IPagedList<ProductDTO>> GetAllAsync(RequestParams requestParams)
+        //{
+        //    var records = await _context.Products
+        //        .Select(x => new ProductDTO()
+        //        {
+        //            Id = x.Id,
+        //            Name = x.Name,
+        //            Description = x.Description,
+        //            Price = x.Price,
+        //            Stock = x.Stock,
+        //        }).ToListAsync();
 
-            return records!;
-        }
+        //    if (requestParams.search != null)
+        //        records = await records.Where(x => x.Name.Contains(requestParams.search, StringComparison.OrdinalIgnoreCase)).ToListAsync();
+
+        //    requestParams.recordCount = records.Count;
+
+        //    var data = await Pagination.SortResult(records, requestParams);
+        //    return data;
+        //}
 
         public async Task<ProductDTO> GetByIdAsync(int id)
         {

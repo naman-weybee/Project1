@@ -44,6 +44,11 @@ namespace Project1.Configurations
             }
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Product>()
+            .HasIndex(p => p.Id)
+            .HasDatabaseName("IX_Product_Id")
+            .IsUnique();
         }
     }
 }

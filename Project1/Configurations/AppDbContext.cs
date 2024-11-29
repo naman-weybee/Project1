@@ -13,7 +13,7 @@ namespace Project1.Configurations
 
         public DbSet<Product> Products { get; set; }
 
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var markedAsDeleted = ChangeTracker.Entries()
                 .Where(x => x.State == EntityState.Deleted);
@@ -28,7 +28,7 @@ namespace Project1.Configurations
                 }
             }
 
-            return base.SaveChanges();
+            return Task.FromResult(base.SaveChanges());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

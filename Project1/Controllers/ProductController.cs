@@ -111,9 +111,22 @@ namespace Project1.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task DeleteProduct([FromRoute] int id)
+        public async Task<IActionResult> DeleteProduct([FromRoute] int id)
         {
-            await _productService.DeleteProductAsync(id);
+            var response = new ResponseStructure();
+
+            try
+            {
+                await _productService.DeleteProductAsync(id);
+                response.data = new { Message = $"Product with Id = {id} is Deleted Successfully...!" };
+                response.success = true;
+                return StatusCode(200, response);
+            }
+            catch (Exception ex)
+            {
+                response.error = ex.Message;
+                return StatusCode(500, response);
+            }
         }
     }
 }

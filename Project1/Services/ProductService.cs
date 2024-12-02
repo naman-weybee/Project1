@@ -22,7 +22,7 @@ namespace Project1.Services
         {
             var items = await _repository.GetAllAsync(requestParams);
 
-            return await items.Select(item => new ProductDTO
+            return await items?.Select(item => new ProductDTO
             {
                 Id = item.Id,
                 Name = item.Name,

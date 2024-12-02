@@ -41,7 +41,11 @@ namespace Project1.Repositories
 
         public virtual async Task<TEntity> GetByIdAsync(int id)
         {
-            return await DbSet.FindAsync(id);
+            var entity = await DbSet.FindAsync(id);
+            if (entity != null)
+                return await DbSet.FindAsync(id);
+            else
+                throw new Exception($"Data for Id = {id} is not Available...!");
         }
 
         public virtual async Task InsertAsync(TEntity entity)
@@ -61,8 +65,15 @@ namespace Project1.Repositories
         public virtual async Task DeleteAsync(int id)
         {
             var entity = await DbSet.FindAsync(id);
-            DbSet.Remove(entity);
-            await _context.SaveChangesAsync();
+            if (entity != null)
+            {
+                DbSet.Remove(entity);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception($"Data for Id = {id} is not Available...!");
+            }
         }
     }
 }

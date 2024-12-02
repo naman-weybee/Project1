@@ -5,6 +5,6 @@ namespace Project1.Services
 {
     public interface IPagination
     {
-        Task<IPagedList<T>> SortResult<T>(List<T> source, RequestParams requestParams);
+        Task<IPagedList<T>> SortResult<T>(IQueryable<T> source, RequestParams requestParams);
     }
 }

@@ -7,14 +7,26 @@ namespace Project1.AutoMapper
     {
         public ProductDTO ProductMapper(Product product)
         {
-            return new ProductDTO
+            try
             {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                Stock = product.Stock
-            };
+                var record = new ProductDTO
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Description = product.Description,
+                    Price = product.Price,
+                    Stock = product.Stock
+                };
+
+                if (record != null)
+                    return record;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return null;
         }
     }
 }

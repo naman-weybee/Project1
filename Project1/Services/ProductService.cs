@@ -2,6 +2,8 @@
 using Project1.DTOs;
 using Project1.Models;
 using Project1.Repositories;
+using Project1.RequestModel;
+using X.PagedList;
 
 namespace Project1.Services
 {
@@ -16,10 +18,19 @@ namespace Project1.Services
             _mapper = new Mapper();
         }
 
-        //public async Task<List<ProductDTO>> GetAllProductsAsync()
-        //{
-        //    return await _productRepository.GetAllAsync();
-        //}
+        public async Task<List<ProductDTO>> GetAllProductsAsync(RequestParams requestParams)
+        {
+            var items = await _repository.GetAllAsync(requestParams);
+
+            return await items.Select(item => new ProductDTO
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Description = item.Description,
+                Price = item.Price,
+                Stock = item.Stock
+            }).ToListAsync();
+        }
 
         public async Task<ProductDTO> GetProductByIdAsync(int id)
         {

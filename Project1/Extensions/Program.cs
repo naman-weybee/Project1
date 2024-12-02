@@ -1,6 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Microsoft.IdentityModel.Tokens;
 using Project1.Configurations;
 using Project1.Models;
 using Project1.Repositories;
@@ -23,7 +21,6 @@ namespace Project1.Extensions
             builder.Services.AddScoped<IPagination, Pagination>();
 
             builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
-            builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
             builder.Services.AddControllers().AddNewtonsoftJson();
             builder.Services.AddEndpointsApiExplorer();

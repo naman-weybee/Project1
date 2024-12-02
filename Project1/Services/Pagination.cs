@@ -5,27 +5,26 @@ namespace Project1.Services
 {
     public class Pagination : IPagination
     {
-        public async Task<IPagedList<T>> SortResult<T>(List<T> source, RequestParams requestParams)
+        public async Task<IPagedList<T>> SortResult<T>(IQueryable<T> source, RequestParams requestParams)
         {
-            var data = source.AsQueryable();
             if (!string.IsNullOrEmpty(requestParams.sortBy))
             {
                 var property = typeof(T).GetProperty(requestParams.sortBy);
                 if (property != null)
                 {
-                    data = string.Equals(requestParams.orderBy?.Trim(), "DESC", StringComparison.OrdinalIgnoreCase)
-                        ? data.OrderByDescending(e => property.GetValue(e))
-                        : data.OrderBy(e => property.GetValue(e));
+                    source = string.Equals(requestParams.orderBy?.Trim(), "DESC", StringComparison.OrdinalIgnoreCase)
+                        ? source.AsEnumerable().OrderByDescending(e => property.GetValue(e)).AsQueryable()
+                        : source.AsEnumerable().OrderBy(e => property.GetValue(e)).AsQueryable();
                 }
             }
             else
             {
-                var nameProperty = typeof(T).GetProperty("Name");
+                var nameProperty = typeof(T).GetProperty("CreatedDate");
                 if (nameProperty != null)
-                    data = data.OrderBy(e => nameProperty.GetValue(e));
+                    source = source.AsEnumerable().OrderByDescending(e => nameProperty.GetValue(e)).AsQueryable();
             }
 
-            return await data.ToPagedListAsync(requestParams.pageNumber, requestParams.pageSize);
+            return await source.ToPagedListAsync(requestParams.pageNumber, requestParams.pageSize);
         }
     }
 }

@@ -11,10 +11,12 @@ namespace Project1.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
+        private readonly ILogger<ProductController> _logger;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, ILogger<ProductController> logger)
         {
             _productService = productService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -43,6 +45,8 @@ namespace Project1.Controllers
             catch (Exception ex)
             {
                 response.error = ex.Message;
+                _logger.LogError(ex.Message);
+
                 return StatusCode(500, response);
             }
         }
@@ -68,6 +72,8 @@ namespace Project1.Controllers
             catch (Exception ex)
             {
                 response.error = ex.Message;
+                _logger.LogError(ex.Message);
+
                 return StatusCode(500, response);
             }
         }
@@ -87,6 +93,8 @@ namespace Project1.Controllers
             catch (Exception ex)
             {
                 response.error = ex.Message;
+                _logger.LogError(ex.Message);
+
                 return StatusCode(500, response);
             }
         }
@@ -106,6 +114,8 @@ namespace Project1.Controllers
             catch (Exception ex)
             {
                 response.error = ex.Message;
+                _logger.LogError(ex.Message);
+
                 return StatusCode(500, response);
             }
         }
@@ -125,6 +135,8 @@ namespace Project1.Controllers
             catch (Exception ex)
             {
                 response.error = ex.Message;
+                _logger.LogError(ex.Message);
+
                 return StatusCode(500, response);
             }
         }

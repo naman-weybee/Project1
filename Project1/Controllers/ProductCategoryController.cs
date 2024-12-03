@@ -99,14 +99,14 @@ namespace Project1.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateProductCategory([FromForm] ProductCategoryDTO _dto)
+        [HttpPut("{id1}/{id2}")]
+        public async Task<IActionResult> UpdateProductCategory([FromRoute] int id1, [FromRoute] int id2, [FromForm] ProductCategoryDTO _dto)
         {
             var response = new ResponseStructure();
 
             try
             {
-                await _service.UpdateProductCategoryAsync(_dto);
+                await _service.UpdateProductCategoryAsync(id1, id2, _dto);
                 response.data = new { Message = "Product-Category Modified Successfully...!" };
                 response.success = true;
                 return StatusCode(200, response);

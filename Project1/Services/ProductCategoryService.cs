@@ -47,15 +47,25 @@ namespace Project1.Services
             await _repository.InsertAsync(item);
         }
 
-        public async Task UpdateProductCategoryAsync(ProductCategoryDTO _dto)
+        public async Task UpdateProductCategoryAsync(int id1, int id2, ProductCategoryDTO _dto)
         {
-            var item = new ProductCategory
+            var item = await _repository.GetByIdAsync(id1, id2);
+            if (item != null)
             {
-                ProductId = _dto.ProductId,
-                CategoryId = _dto.CategoryId
-            };
+                await _repository.DeleteAsync(id1, id2);
 
-            await _repository.UpdateAsync(item);
+                var newItem = new ProductCategory
+                {
+                    ProductId = _dto.ProductId,
+                    CategoryId = _dto.CategoryId
+                };
+
+                await _repository.InsertAsync(newItem);
+            }
+            else
+            {
+                throw new Exception($"Data for Ids = {id1}, {id2} is not Available...!");
+            }
         }
 
         public async Task DeleteProductCategoryAsync(int id1, int id2)

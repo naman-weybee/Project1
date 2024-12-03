@@ -11,7 +11,7 @@ namespace Project1.Services
 
         Task CreateProductCategoryAsync(ProductCategoryDTO _dto);
 
-        Task UpdateProductCategoryAsync(ProductCategoryDTO _dto);
+        Task UpdateProductCategoryAsync(int id1, int id2, ProductCategoryDTO _dto);
 
         Task DeleteProductCategoryAsync(int id1, int id2);
     }

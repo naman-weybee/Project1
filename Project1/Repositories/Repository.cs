@@ -48,6 +48,15 @@ namespace Project1.Repositories
                 throw new Exception($"Data for Id = {id} is not Available...!");
         }
 
+        public virtual async Task<TEntity> GetByIdAsync(int id1, int id2)
+        {
+            var entity = await DbSet.FindAsync(id1, id2);
+            if (entity != null)
+                return await DbSet.FindAsync(id1, id2);
+            else
+                throw new Exception($"Data for Ids = {id1}, {id2} is not Available...!");
+        }
+
         public virtual async Task InsertAsync(TEntity entity)
         {
             DbSet.Attach(entity);
@@ -73,6 +82,20 @@ namespace Project1.Repositories
             else
             {
                 throw new Exception($"Data for Id = {id} is not Available...!");
+            }
+        }
+
+        public virtual async Task DeleteAsync(int key1, int key2)
+        {
+            var entity = await DbSet.FindAsync(key1, key2);
+            if (entity != null)
+            {
+                DbSet.Remove(entity);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception($"Data for keys ({key1}, {key2}) is not available...!");
             }
         }
     }

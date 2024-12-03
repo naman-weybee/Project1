@@ -10,10 +10,14 @@ namespace Project1.Repositories
 
         Task<TEntity> GetByIdAsync(int id);
 
+        Task<TEntity> GetByIdAsync(int id1, int id2);
+
         Task InsertAsync(TEntity entity);
 
         Task UpdateAsync(TEntity entity);
 
         Task DeleteAsync(int id);
+
+        Task DeleteAsync(int id1, int id2);
     }
 }

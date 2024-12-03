@@ -1,11 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Project1.Configurations;
-using Project1.Middlewares;
-using Project1.Models;
-using Project1.Repositories;
-using Project1.Services;
+using Project1.Extensions;
 
-namespace Project1.Extensions
+namespace Project1
 {
     public static class Program
     {
@@ -15,13 +11,9 @@ namespace Project1.Extensions
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-            // Add services to the container.
-            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+            builder.Services.AddDatabase(connectionString);
 
-            builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddScoped<IPagination, Pagination>();
-
-            builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
+            builder.Services.AddCustomServices();
 
             builder.Services.AddControllers().AddNewtonsoftJson();
             builder.Services.AddEndpointsApiExplorer();
@@ -44,7 +36,7 @@ namespace Project1.Extensions
 
             app.UseAuthorization();
 
-            app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseCustomMiddlewares();
 
             app.MapControllers();
 

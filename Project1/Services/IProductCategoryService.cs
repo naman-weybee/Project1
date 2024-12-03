@@ -7,7 +7,7 @@ namespace Project1.Services
     {
         Task<List<ProductCategoryDTO>> GetAllProductCategoriesAsync(RequestParams requestParams);
 
-        Task<ProductCategoryDTO> GetProductCategoryByIdAsync(int id1, int id2);
+        Task<ProductCategoryDetailedDTO> GetProductCategoryByIdAsync(int id1, int id2);
 
         Task CreateProductCategoryAsync(ProductCategoryDTO _dto);
 

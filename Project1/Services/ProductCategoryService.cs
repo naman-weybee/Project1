@@ -10,11 +10,15 @@ namespace Project1.Services
     public class ProductCategoryService : IProductCategoryService
     {
         private readonly IRepository<ProductCategory> _repository;
+        private readonly IRepository<Product> _productRepository;
+        private readonly IRepository<Category> _categoryRepository;
         private readonly Mapper _mapper;
 
-        public ProductCategoryService(IRepository<ProductCategory> repository)
+        public ProductCategoryService(IRepository<ProductCategory> repository, IRepository<Product> productRepository, IRepository<Category> categoryRepository)
         {
             _repository = repository;
+            _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
             _mapper = new Mapper();
         }
 
@@ -29,11 +33,30 @@ namespace Project1.Services
             }).ToListAsync();
         }
 
-        public async Task<ProductCategoryDTO> GetProductCategoryByIdAsync(int id1, int id2)
+        public async Task<ProductCategoryDetailedDTO> GetProductCategoryByIdAsync(int id1, int id2)
         {
             var item = await _repository.GetByIdAsync(id1, id2);
+            if (item != null)
+            {
+                var product = await _productRepository.GetByIdAsync(item.ProductId);
+                var category = await _categoryRepository.GetByIdAsync(item.CategoryId);
 
-            return _mapper.ProductCategoryMapper(item);
+                if (product != null || category != null)
+                {
+                    return new ProductCategoryDetailedDTO()
+                    {
+                        ProductId = item.ProductId,
+                        CategoryId = item.CategoryId,
+                        ProductName = product.Name,
+                        CategoryName = category.Name,
+                        Description = product.Description,
+                        Price = product.Price,
+                        Stock = product.Stock
+                    };
+                }
+            }
+
+            return null;
         }
 
         public async Task CreateProductCategoryAsync(ProductCategoryDTO _dto)

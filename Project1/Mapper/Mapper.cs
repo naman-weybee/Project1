@@ -51,26 +51,5 @@ namespace Project1.AutoMapper
 
             return null;
         }
-
-        public ProductCategoryDTO ProductCategoryMapper(ProductCategory item)
-        {
-            try
-            {
-                var record = new ProductCategoryDTO
-                {
-                    ProductId = item.ProductId,
-                    CategoryId = item.CategoryId
-                };
-
-                if (record != null)
-                    return record;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            return null;
-        }
     }
 }

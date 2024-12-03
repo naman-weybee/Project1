@@ -66,7 +66,7 @@ namespace Project1.Controllers
                     return StatusCode(200, data);
                 }
 
-                response.error = $"Requested Product-Category for Id = {id1}, {id2} is Not Found...!";
+                response.error = $"Requested Product-Category for Ids = {id1}, {id2} is Not Found...!";
                 return NotFound(response);
             }
             catch (Exception ex)

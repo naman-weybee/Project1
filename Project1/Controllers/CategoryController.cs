@@ -8,25 +8,25 @@ namespace Project1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : Controller
+    public class CategoryController : Controller
     {
-        private readonly IProductService _service;
-        private readonly ILogger<ProductController> _logger;
+        private readonly ICategoryService _service;
+        private readonly ILogger<CategoryController> _logger;
 
-        public ProductController(IProductService service, ILogger<ProductController> logger)
+        public CategoryController(ICategoryService service, ILogger<CategoryController> logger)
         {
             _service = service;
             _logger = logger;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts([FromQuery] RequestParams requestParams)
+        public async Task<IActionResult> GetAllCategories([FromQuery] RequestParams requestParams)
         {
             var response = new ResponseStructure();
 
             try
             {
-                var data = await _service.GetAllProductsAsync(requestParams);
+                var data = await _service.GetAllCategoriesAsync(requestParams);
                 if (data != null)
                 {
                     response.data = new ResponseMetadata<object>()
@@ -52,13 +52,13 @@ namespace Project1.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProductById([FromRoute] int id)
+        public async Task<IActionResult> GetCategoryById([FromRoute] int id)
         {
             var response = new ResponseStructure();
 
             try
             {
-                var data = await _service.GetProductByIdAsync(id);
+                var data = await _service.GetCategoryByIdAsync(id);
                 if (data != null)
                 {
                     response.data = data;
@@ -66,7 +66,7 @@ namespace Project1.Controllers
                     return StatusCode(200, data);
                 }
 
-                response.error = $"Requested Product for Id = {id} is Not Found...!";
+                response.error = $"Requested Category for Id = {id} is Not Found...!";
                 return NotFound(response);
             }
             catch (Exception ex)
@@ -79,14 +79,14 @@ namespace Project1.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> CreateProduct([FromForm] CreateProductDTO productDTO)
+        public async Task<IActionResult> CreateCategory([FromForm] CreateCategoryDTO _dto)
         {
             var response = new ResponseStructure();
 
             try
             {
-                await _service.CreateProductAsync(productDTO);
-                response.data = new { Message = "New Product Added Successfully...!" };
+                await _service.CreateCategoryAsync(_dto);
+                response.data = new { Message = "New Category Added Successfully...!" };
                 response.success = true;
                 return StatusCode(201, response);
             }
@@ -100,14 +100,14 @@ namespace Project1.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateProduct([FromForm] ProductDTO productDTO)
+        public async Task<IActionResult> UpdateCategory([FromForm] CategoryDTO _dto)
         {
             var response = new ResponseStructure();
 
             try
             {
-                await _service.UpdateProductAsync(productDTO);
-                response.data = new { Message = "Product Modified Successfully...!" };
+                await _service.UpdateCategoryAsync(_dto);
+                response.data = new { Message = "Category Modified Successfully...!" };
                 response.success = true;
                 return StatusCode(200, response);
             }
@@ -121,14 +121,14 @@ namespace Project1.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct([FromRoute] int id)
+        public async Task<IActionResult> DeleteCategory([FromRoute] int id)
         {
             var response = new ResponseStructure();
 
             try
             {
-                await _service.DeleteProductAsync(id);
-                response.data = new { Message = $"Product with Id = {id} is Deleted Successfully...!" };
+                await _service.DeleteCategoryAsync(id);
+                response.data = new { Message = $"Category with Id = {id} is Deleted Successfully...!" };
                 response.success = true;
                 return StatusCode(200, response);
             }

@@ -34,36 +34,36 @@ namespace Project1.Services
 
         public async Task<ProductDTO> GetProductByIdAsync(int id)
         {
-            var product = await _repository.GetByIdAsync(id);
+            var item = await _repository.GetByIdAsync(id);
 
-            return _mapper.ProductMapper(product);
+            return _mapper.ProductMapper(item);
         }
 
-        public async Task CreateProductAsync(CreateProductDTO productDTO)
+        public async Task CreateProductAsync(CreateProductDTO _dto)
         {
-            var product = new Product
+            var item = new Product
             {
-                Name = productDTO.Name,
-                Description = productDTO.Description,
-                Price = productDTO.Price,
-                Stock = productDTO.Stock
+                Name = _dto.Name,
+                Description = _dto.Description,
+                Price = _dto.Price,
+                Stock = _dto.Stock
             };
 
-            await _repository.InsertAsync(product);
+            await _repository.InsertAsync(item);
         }
 
-        public async Task UpdateProductAsync(ProductDTO productDTO)
+        public async Task UpdateProductAsync(ProductDTO _dto)
         {
-            var product = new Product
+            var item = new Product
             {
-                Id = productDTO.Id,
-                Name = productDTO.Name,
-                Description = productDTO.Description,
-                Price = productDTO.Price,
-                Stock = productDTO.Stock
+                Id = _dto.Id,
+                Name = _dto.Name,
+                Description = _dto.Description,
+                Price = _dto.Price,
+                Stock = _dto.Stock
             };
 
-            await _repository.UpdateAsync(product);
+            await _repository.UpdateAsync(item);
         }
 
         public async Task DeleteProductAsync(int id)

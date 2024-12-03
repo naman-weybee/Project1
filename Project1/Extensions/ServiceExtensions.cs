@@ -9,7 +9,10 @@ namespace Project1.Extensions
         public static IServiceCollection AddCustomServices(this IServiceCollection services)
         {
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+
             services.AddScoped<IRepository<Product>, Repository<Product>>();
+
             services.AddScoped<IPagination, Pagination>();
 
             return services;

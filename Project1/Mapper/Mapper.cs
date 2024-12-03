@@ -28,5 +28,28 @@ namespace Project1.AutoMapper
 
             return null;
         }
+
+        public CategoryDTO CategoryMapper(Category product)
+        {
+            try
+            {
+                var record = new CategoryDTO
+                {
+                    Id = product.Id,
+                    ParentCategoryId = product.ParentCategoryId,
+                    Name = product.Name,
+                    Level = product.Level
+                };
+
+                if (record != null)
+                    return record;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return null;
+        }
     }
 }

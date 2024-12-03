@@ -5,17 +5,17 @@ namespace Project1.AutoMapper
 {
     public class Mapper
     {
-        public ProductDTO ProductMapper(Product product)
+        public ProductDTO ProductMapper(Product item)
         {
             try
             {
                 var record = new ProductDTO
                 {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Price = product.Price,
-                    Stock = product.Stock
+                    Id = item.Id,
+                    Name = item.Name,
+                    Description = item.Description,
+                    Price = item.Price,
+                    Stock = item.Stock
                 };
 
                 if (record != null)
@@ -29,16 +29,16 @@ namespace Project1.AutoMapper
             return null;
         }
 
-        public CategoryDTO CategoryMapper(Category product)
+        public CategoryDTO CategoryMapper(Category item)
         {
             try
             {
                 var record = new CategoryDTO
                 {
-                    Id = product.Id,
-                    ParentCategoryId = product.ParentCategoryId,
-                    Name = product.Name,
-                    Level = product.Level
+                    Id = item.Id,
+                    ParentCategoryId = item.ParentCategoryId,
+                    Name = item.Name,
+                    Level = item.Level
                 };
 
                 if (record != null)

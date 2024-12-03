@@ -12,6 +12,7 @@ namespace Project1.Extensions
             services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddScoped<IRepository<Product>, Repository<Product>>();
+            services.AddScoped<IRepository<Category>, Repository<Category>>();
 
             services.AddScoped<IPagination, Pagination>();
 

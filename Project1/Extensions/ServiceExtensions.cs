@@ -10,9 +10,11 @@ namespace Project1.Extensions
         {
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProductCategoryService, ProductCategoryService>();
 
             services.AddScoped<IRepository<Product>, Repository<Product>>();
             services.AddScoped<IRepository<Category>, Repository<Category>>();
+            services.AddScoped<IRepository<ProductCategory>, Repository<ProductCategory>>();
 
             services.AddScoped<IPagination, Pagination>();
 

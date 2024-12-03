@@ -17,6 +17,8 @@ namespace Project1.Configurations
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -54,6 +56,14 @@ namespace Project1.Configurations
             .HasIndex(p => p.Id)
             .HasDatabaseName("IX_Product_Id")
             .IsUnique();
+
+            modelBuilder.Entity<Category>()
+            .HasIndex(p => p.Id)
+            .HasDatabaseName("IX_Category_Id")
+            .IsUnique();
+
+            modelBuilder.Entity<ProductCategory>()
+            .HasKey(pc => new { pc.ProductId, pc.CategoryId });
         }
     }
 }

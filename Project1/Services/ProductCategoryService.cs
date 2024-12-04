@@ -33,7 +33,60 @@ namespace Project1.Services
             }).ToListAsync();
         }
 
-        public async Task<ProductCategoryDetailedDTO> GetProductCategoryByIdAsync(int id1, int id2)
+        public async Task<List<ProductCategoryDetailedDTO>> GetAllDetailedProductCategoriesAsync(RequestParams requestParams)
+        {
+            var items = await _repository.GetAllAsync(requestParams);
+
+            if (items.Any())
+            {
+                var productCategoryList = new List<ProductCategoryDetailedDTO>();
+                foreach (var item in items)
+                {
+                    if (item != null)
+                    {
+                        var product = await _productRepository.GetByIdAsync(item.ProductId);
+                        var category = await _categoryRepository.GetByIdAsync(item.CategoryId);
+
+                        if (product != null || category != null)
+                        {
+                            var productCategory = new ProductCategoryDetailedDTO()
+                            {
+                                ProductId = item.ProductId,
+                                CategoryId = item.CategoryId,
+                                ProductName = product.Name,
+                                CategoryName = category.Name,
+                                Description = product.Description,
+                                Price = product.Price,
+                                Stock = product.Stock
+                            };
+
+                            productCategoryList.Add(productCategory);
+                        }
+                    }
+                }
+
+                return productCategoryList;
+            }
+
+            return null;
+        }
+
+        public async Task<ProductCategoryDTO> GetProductCategoryByIdAsync(int id1, int id2)
+        {
+            var item = await _repository.GetByIdAsync(id1, id2);
+            if (item != null)
+            {
+                return new ProductCategoryDTO()
+                {
+                    ProductId = item.ProductId,
+                    CategoryId = item.CategoryId
+                };
+            }
+
+            return null;
+        }
+
+        public async Task<ProductCategoryDetailedDTO> GetDetailedProductCategoryByIdAsync(int id1, int id2)
         {
             var item = await _repository.GetByIdAsync(id1, id2);
             if (item != null)

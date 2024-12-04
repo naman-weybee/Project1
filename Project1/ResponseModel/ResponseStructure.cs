@@ -14,4 +14,9 @@
         public int total_records_count = 0;
         public T records;
     }
+
+    public class ResponseTreeMetadata<T>
+    {
+        public T records;
+    }
 }

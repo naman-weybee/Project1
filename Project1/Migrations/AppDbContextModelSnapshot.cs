@@ -63,7 +63,7 @@ namespace Project1.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Category_Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Project1.Models.Product", b =>
@@ -105,7 +105,7 @@ namespace Project1.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Product_Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Project1.Models.ProductCategory", b =>
@@ -122,7 +122,7 @@ namespace Project1.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("ProductCategories");
+                    b.ToTable("ProductCategories", (string)null);
                 });
 
             modelBuilder.Entity("Project1.Models.Category", b =>

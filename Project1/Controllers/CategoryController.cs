@@ -51,6 +51,35 @@ namespace Project1.Controllers
             }
         }
 
+        [HttpGet("Tree")]
+        public async Task<IActionResult> GetCategoryTree()
+        {
+            var response = new ResponseStructure();
+
+            try
+            {
+                var data = await _service.GetCategoryTreeAsync();
+                if (data != null)
+                {
+                    response.data = new ResponseTreeMetadata<object>()
+                    {
+                        records = data
+                    };
+
+                    response.success = true;
+                }
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                response.error = ex.Message;
+                _logger.LogError(ex.Message);
+
+                return StatusCode(500, response);
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById([FromRoute] int id)
         {

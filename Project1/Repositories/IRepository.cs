@@ -8,6 +8,8 @@ namespace Project1.Repositories
     {
         Task<IPagedList<TEntity>> GetAllAsync(RequestParams requestParams);
 
+        Task<IPagedList<TEntity>> GetAllWithoutPaginationAsync();
+
         Task<TEntity> GetByIdAsync(int id);
 
         Task<TEntity> GetByIdAsync(int id1, int id2);

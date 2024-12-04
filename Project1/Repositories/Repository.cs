@@ -39,6 +39,13 @@ namespace Project1.Repositories
             return await _pagination.SortResult(query, requestParams);
         }
 
+        public async Task<IPagedList<TEntity>> GetAllWithoutPaginationAsync()
+        {
+            var items = await _context.Set<TEntity>()?.ToListAsync();
+
+            return items.ToPagedList(1, items.Count);
+        }
+
         public virtual async Task<TEntity> GetByIdAsync(int id)
         {
             var entity = await DbSet.FindAsync(id);

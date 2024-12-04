@@ -7,6 +7,8 @@ namespace Project1.Services
     {
         Task<List<CategoryDTO>> GetAllCategoriesAsync(RequestParams _dto);
 
+        Task<List<CategoryTreeDTO>> GetCategoryTreeAsync();
+
         Task<CategoryDTO> GetCategoryByIdAsync(int id);
 
         Task CreateCategoryAsync(CreateCategoryDTO _dto);

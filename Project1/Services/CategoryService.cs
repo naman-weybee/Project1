@@ -31,6 +31,28 @@ namespace Project1.Services
             }).ToListAsync();
         }
 
+        public async Task<List<CategoryTreeDTO>> GetCategoryTreeAsync()
+        {
+            var items = await _repository.GetAllWithoutPaginationAsync();
+            var categoryList = items?.ToList() ?? new List<Category>();
+
+            return BuildCategoryTree(categoryList);
+        }
+
+        internal List<CategoryTreeDTO> BuildCategoryTree(List<Category> categories, int? parentId = null)
+        {
+            return categories
+                .Where(c => c.ParentCategoryId == parentId)
+                .Select(c => new CategoryTreeDTO
+                {
+                    Id = c.Id,
+                    ParentCategoryId = c.ParentCategoryId,
+                    Name = c.Name,
+                    Level = c.Level,
+                    ChildCategories = BuildCategoryTree(categories, c.Id)
+                }).ToList();
+        }
+
         public async Task<CategoryDTO> GetCategoryByIdAsync(int id)
         {
             var item = await _repository.GetByIdAsync(id);

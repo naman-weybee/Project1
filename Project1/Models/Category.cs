@@ -9,6 +9,7 @@ namespace Project1.Models
         public int Id { get; set; }
 
         [ForeignKey("ParentCategoryId")]
+        [ValueRange(1, 2)]
         public int? ParentCategoryId { get; set; }
 
         [MaxLength(100)]

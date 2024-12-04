@@ -11,8 +11,8 @@ namespace Project1.Services
 
         Task<ProductCategoryDTO> GetProductCategoryByIdAsync(int id1, int id2);
 
-
         Task<ProductCategoryDetailedDTO> GetDetailedProductCategoryByIdAsync(int id1, int id2);
+
         Task CreateProductCategoryAsync(ProductCategoryDTO _dto);
 
         Task UpdateProductCategoryAsync(int id1, int id2, ProductCategoryDTO _dto);

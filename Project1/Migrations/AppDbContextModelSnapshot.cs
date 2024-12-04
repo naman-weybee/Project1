@@ -30,6 +30,9 @@ namespace Project1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -53,6 +56,8 @@ namespace Project1.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("Id")
                         .IsUnique()
@@ -120,6 +125,13 @@ namespace Project1.Migrations
                     b.ToTable("ProductCategories");
                 });
 
+            modelBuilder.Entity("Project1.Models.Category", b =>
+                {
+                    b.HasOne("Project1.Models.Category", null)
+                        .WithMany("ChildCategories")
+                        .HasForeignKey("CategoryId");
+                });
+
             modelBuilder.Entity("Project1.Models.ProductCategory", b =>
                 {
                     b.HasOne("Project1.Models.Category", "Category")
@@ -141,6 +153,8 @@ namespace Project1.Migrations
 
             modelBuilder.Entity("Project1.Models.Category", b =>
                 {
+                    b.Navigation("ChildCategories");
+
                     b.Navigation("ProductCategories");
                 });
 

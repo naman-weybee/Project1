@@ -17,6 +17,7 @@ namespace Project1.Models
         [ValueRange(1, 3)]
         public int Level { get; set; }
 
+        public virtual ICollection<Category> ChildCategories { get; set; }
         public ICollection<ProductCategory> ProductCategories { get; set; }
     }
 }

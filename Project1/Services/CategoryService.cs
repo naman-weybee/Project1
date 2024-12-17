@@ -1,4 +1,4 @@
-﻿using Project1.AutoMapper;
+﻿using AutoMapper;
 using Project1.DTOs;
 using Project1.Models;
 using Project1.Repositories;
@@ -10,25 +10,19 @@ namespace Project1.Services
     public class CategoryService : ICategoryService
     {
         private readonly IRepository<Category> _repository;
-        private readonly Mapper _mapper;
+        private readonly IMapper _mapper;
 
-        public CategoryService(IRepository<Category> repository)
+        public CategoryService(IRepository<Category> repository, IMapper mapper)
         {
             _repository = repository;
-            _mapper = new Mapper();
+            _mapper = mapper;
         }
 
         public async Task<List<CategoryDTO>> GetAllCategoriesAsync(RequestParams requestParams)
         {
             var items = await _repository.GetAllAsync(requestParams);
 
-            return await items?.Select(item => new CategoryDTO
-            {
-                Id = item.Id,
-                ParentCategoryId = item.ParentCategoryId,
-                Name = item.Name,
-                Level = item.Level
-            }).ToListAsync();
+            return _mapper.Map<List<CategoryDTO>>(items);
         }
 
         public async Task<List<CategoryTreeDTO>> GetCategoryTreeAsync()
@@ -57,30 +51,19 @@ namespace Project1.Services
         {
             var item = await _repository.GetByIdAsync(id);
 
-            return _mapper.CategoryMapper(item);
+            return _mapper.Map<CategoryDTO>(item);
         }
 
         public async Task CreateCategoryAsync(CreateCategoryDTO _dto)
         {
-            var item = new Category
-            {
-                ParentCategoryId = _dto.ParentCategoryId,
-                Name = _dto.Name,
-                Level = _dto.Level
-            };
+            var item = _mapper.Map<Category>(_dto);
 
             await _repository.InsertAsync(item);
         }
 
         public async Task UpdateCategoryAsync(CategoryDTO _dto)
         {
-            var item = new Category
-            {
-                Id = _dto.Id,
-                ParentCategoryId = _dto.ParentCategoryId,
-                Name = _dto.Name,
-                Level = _dto.Level
-            };
+            var item = _mapper.Map<Category>(_dto);
 
             await _repository.UpdateAsync(item);
         }

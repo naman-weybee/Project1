@@ -1,9 +1,8 @@
-﻿using Project1.AutoMapper;
+﻿using AutoMapper;
 using Project1.DTOs;
 using Project1.Models;
 using Project1.Repositories;
 using Project1.RequestModel;
-using X.PagedList;
 
 namespace Project1.Services
 {
@@ -12,25 +11,21 @@ namespace Project1.Services
         private readonly IRepository<ProductCategory> _repository;
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<Category> _categoryRepository;
-        private readonly Mapper _mapper;
+        private readonly IMapper _mapper;
 
-        public ProductCategoryService(IRepository<ProductCategory> repository, IRepository<Product> productRepository, IRepository<Category> categoryRepository)
+        public ProductCategoryService(IRepository<ProductCategory> repository, IRepository<Product> productRepository, IRepository<Category> categoryRepository, IMapper mapper)
         {
             _repository = repository;
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
-            _mapper = new Mapper();
+            _mapper = mapper;
         }
 
         public async Task<List<ProductCategoryDTO>> GetAllProductCategoriesAsync(RequestParams requestParams)
         {
             var items = await _repository.GetAllAsync(requestParams);
 
-            return await items?.Select(item => new ProductCategoryDTO
-            {
-                ProductId = item.ProductId,
-                CategoryId = item.CategoryId
-            }).ToListAsync();
+            return _mapper.Map<List<ProductCategoryDTO>>(items);
         }
 
         public async Task<List<ProductCategoryDetailedDTO>> GetAllDetailedProductCategoriesAsync(RequestParams requestParams)
@@ -42,27 +37,27 @@ namespace Project1.Services
                 var productCategoryList = new List<ProductCategoryDetailedDTO>();
                 foreach (var item in items)
                 {
-                    if (item != null)
+                    if (item == null)
+                        continue;
+
+                    var product = await _productRepository.GetByIdAsync(item.ProductId);
+                    var category = await _categoryRepository.GetByIdAsync(item.CategoryId);
+
+                    if (product == null || category == null)
+                        continue;
+
+                    var productCategory = new ProductCategoryDetailedDTO()
                     {
-                        var product = await _productRepository.GetByIdAsync(item.ProductId);
-                        var category = await _categoryRepository.GetByIdAsync(item.CategoryId);
+                        ProductId = item.ProductId,
+                        CategoryId = item.CategoryId,
+                        ProductName = product.Name,
+                        CategoryName = category.Name,
+                        Description = product.Description,
+                        Price = product.Price,
+                        Stock = product.Stock
+                    };
 
-                        if (product != null || category != null)
-                        {
-                            var productCategory = new ProductCategoryDetailedDTO()
-                            {
-                                ProductId = item.ProductId,
-                                CategoryId = item.CategoryId,
-                                ProductName = product.Name,
-                                CategoryName = category.Name,
-                                Description = product.Description,
-                                Price = product.Price,
-                                Stock = product.Stock
-                            };
-
-                            productCategoryList.Add(productCategory);
-                        }
-                    }
+                    productCategoryList.Add(productCategory);
                 }
 
                 return productCategoryList;
@@ -75,13 +70,7 @@ namespace Project1.Services
         {
             var item = await _repository.GetByIdAsync(id1, id2);
             if (item != null)
-            {
-                return new ProductCategoryDTO()
-                {
-                    ProductId = item.ProductId,
-                    CategoryId = item.CategoryId
-                };
-            }
+                return _mapper.Map<ProductCategoryDTO>(item);
 
             return null;
         }
@@ -114,11 +103,7 @@ namespace Project1.Services
 
         public async Task CreateProductCategoryAsync(ProductCategoryDTO _dto)
         {
-            var item = new ProductCategory
-            {
-                ProductId = _dto.ProductId,
-                CategoryId = _dto.CategoryId
-            };
+            var item = _mapper.Map<ProductCategory>(_dto);
 
             await _repository.InsertAsync(item);
         }
@@ -130,11 +115,7 @@ namespace Project1.Services
             {
                 await _repository.DeleteAsync(id1, id2);
 
-                var newItem = new ProductCategory
-                {
-                    ProductId = _dto.ProductId,
-                    CategoryId = _dto.CategoryId
-                };
+                var newItem = _mapper.Map<ProductCategory>(_dto);
 
                 await _repository.InsertAsync(newItem);
             }

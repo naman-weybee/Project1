@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Project1.Extensions;
+using Project1.Mapper;
 
 namespace Project1
 {
@@ -10,6 +11,8 @@ namespace Project1
             var builder = WebApplication.CreateBuilder(args);
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
             builder.Services.AddDatabase(connectionString);
 
